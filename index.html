@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DANA Notifikasi Web</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <h2>Simulasi DANA Web</h2>
+  <button onclick="kirimNotif()">Kirim Notifikasi</button>
+
+  <script>
+    // Daftarkan service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log("Service Worker terdaftar"))
+        .catch(err => console.error("SW gagal:", err));
+    }
+
+    // Kirim notifikasi
+    function kirimNotif() {
+      Notification.requestPermission().then(izin => {
+        if (izin === "granted") {
+          navigator.serviceWorker.ready.then(reg => {
+            reg.showNotification("Saldo Bertambah", {
+              body: "Rp100.000 telah masuk ke akunmu",
+              icon: "https://cdn-icons-png.flaticon.com/512/2920/2920298.png",
+              vibrate: [100, 50, 100],
+              tag: "notif-uang"
+            });
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
