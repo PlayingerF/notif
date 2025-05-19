@@ -1,6 +1,6 @@
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
   event.waitUntil(
-    clients.openWindow('https://example.com') // arahkan ke halaman jika diklik
+    clients.openWindow('https://github.com/PlayingerF') // arahkan ke halaman jika diklik
   );
 });
