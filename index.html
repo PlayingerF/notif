@@ -1,35 +1,75 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DANA Notifikasi Web</title>
-  <link rel="manifest" href="manifest.json">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DANA Notifikasi</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #0d47a1, #1976d2);
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 15px 25px;
+      font-size: 16px;
+      border: none;
+      background-color: #00c853;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #00b341;
+    }
+  </style>
 </head>
 <body>
-  <h2>Simulasi DANA Web</h2>
-  <button onclick="kirimNotif()">Kirim Notifikasi</button>
+  <h1>Simulasi DANA - Notifikasi Uang Masuk</h1>
+  <button onclick="kirimNotifikasi()">Kirim Notifikasi</button>
 
   <script>
     // Daftarkan service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log("Service Worker terdaftar"))
+        .then(() => console.log("Service Worker aktif."))
         .catch(err => console.error("SW gagal:", err));
     }
 
-    // Kirim notifikasi
-    function kirimNotif() {
+    // Fungsi kirim notifikasi
+    function kirimNotifikasi() {
       Notification.requestPermission().then(izin => {
         if (izin === "granted") {
           navigator.serviceWorker.ready.then(reg => {
-            reg.showNotification("Saldo Bertambah", {
-              body: "Rp100.000 telah masuk ke akunmu",
-              icon: "https://cdn-icons-png.flaticon.com/512/2920/2920298.png",
-              vibrate: [100, 50, 100],
-              tag: "notif-uang"
+            reg.showNotification("Saldo Masuk", {
+              body: "Rp 250.000 telah masuk ke akun Anda",
+              icon: "https://cdn-icons-png.flaticon.com/512/2331/2331948.png",
+              badge: "https://cdn-icons-png.flaticon.com/512/2331/2331948.png",
+              vibrate: [200, 100, 200],
+              tag: "saldo-masuk",
+              actions: [
+                {
+                  action: "buka",
+                  title: "Buka Aplikasi"
+                }
+              ]
             });
           });
+        } else {
+          alert("Izin notifikasi ditolak!");
         }
       });
     }
